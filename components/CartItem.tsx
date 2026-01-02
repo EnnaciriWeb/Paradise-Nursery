@@ -125,7 +125,8 @@ const CartPage: React.FC<CartItemProps> = ({ onContinueShopping }) => {
 
               <div className="border-t border-gray-100 pt-4 mb-8">
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-gray-900">Total Amount</span>
+                  <span className="text-lg font-bold text-gray-900">Total Cart Amount</span>
+                  {/* Task 7: Display the total cart amount dynamically */}
                   <span className="text-2xl font-bold text-emerald-600">${totalAmount}</span>
                 </div>
               </div>
