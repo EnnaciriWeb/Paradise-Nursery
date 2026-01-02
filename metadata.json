@@ -1,0 +1,5 @@
+{
+  "name": "Paradise Nursery",
+  "description": "A dynamic e-commerce shopping cart application for plant lovers, featuring categorized products, a shopping cart with Redux state management, and a responsive design.",
+  "requestFramePermissions": []
+}
