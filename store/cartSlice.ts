@@ -11,6 +11,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    // Reducer 1: addItem
     addItem: (state, action: PayloadAction<Plant>) => {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
@@ -20,54 +21,44 @@ const cartSlice = createSlice({
           ...newItem,
           quantity: 1,
         });
-        state.totalQuantity++;
       } else {
-        // Depending on requirements, we might just increment, 
-        // but the prompt implies the "Add" button disables after adding,
-        // suggesting a single add flow initially. 
-        // However, robust logic handles re-adding safely.
         existingItem.quantity++;
-        state.totalQuantity++;
       }
-      // Recalculate totals handled in component or basic logic here?
-      // Keeping state sync'd is better practice.
+      // Recalculate totals
+      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
       state.totalAmount = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
     },
+
+    // Reducer 2: removeItem
     removeItem: (state, action: PayloadAction<number>) => {
       const id = action.payload;
-      const existingItem = state.items.find((item) => item.id === id);
+      state.items = state.items.filter((item) => item.id !== id);
+      
+      // Recalculate totals
+      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
+      state.totalAmount = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    },
 
-      if (existingItem) {
-        state.items = state.items.filter((item) => item.id !== id);
-        state.totalQuantity -= existingItem.quantity;
-      }
-      state.totalAmount = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    },
-    increaseQuantity: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
+    // Reducer 3: updateQuantity
+    updateQuantity: (state, action: PayloadAction<{ id: number; quantity: number }>) => {
+      const { id, quantity } = action.payload;
       const existingItem = state.items.find((item) => item.id === id);
+      
       if (existingItem) {
-        existingItem.quantity++;
-        state.totalQuantity++;
-      }
-      state.totalAmount = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    },
-    decreaseQuantity: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
-      const existingItem = state.items.find((item) => item.id === id);
-      if (existingItem) {
-        if (existingItem.quantity === 1) {
-          state.items = state.items.filter((item) => item.id !== id);
-          state.totalQuantity--;
+        if (quantity <= 0) {
+            // Remove if quantity becomes 0 or less
+            state.items = state.items.filter((item) => item.id !== id);
         } else {
-          existingItem.quantity--;
-          state.totalQuantity--;
+            existingItem.quantity = quantity;
         }
       }
+      
+      // Recalculate totals
+      state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
       state.totalAmount = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
     },
   },
 });
 
-export const { addItem, removeItem, increaseQuantity, decreaseQuantity } = cartSlice.actions;
+export const { addItem, removeItem, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

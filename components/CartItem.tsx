@@ -1,16 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
-import { increaseQuantity, decreaseQuantity, removeItem } from '../store/cartSlice';
+import { removeItem, updateQuantity } from '../store/cartSlice';
 import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag } from 'lucide-react';
-import { ViewState } from '../types';
 
 interface CartItemProps {
   onContinueShopping: () => void;
 }
-
-// NOTE: Based on "Task 7: Submit the GitHub URL of your CartItem.jsx file displaying the Shopping Cart page."
-// This component functions as the entire Shopping Cart Page.
 
 const CartPage: React.FC<CartItemProps> = ({ onContinueShopping }) => {
   const dispatch = useDispatch();
@@ -18,6 +14,15 @@ const CartPage: React.FC<CartItemProps> = ({ onContinueShopping }) => {
 
   const handleCheckout = () => {
     alert("Coming Soon! Thank you for your interest in Paradise Nursery.");
+  };
+
+  const handleIncrease = (id: number, currentQuantity: number) => {
+    dispatch(updateQuantity({ id, quantity: currentQuantity + 1 }));
+  };
+
+  const handleDecrease = (id: number, currentQuantity: number) => {
+    // If quantity is 1, decrease becomes 0, which is handled by slice to remove the item
+    dispatch(updateQuantity({ id, quantity: currentQuantity - 1 }));
   };
 
   if (items.length === 0) {
@@ -72,14 +77,14 @@ const CartPage: React.FC<CartItemProps> = ({ onContinueShopping }) => {
                 <div className="flex flex-col items-center gap-3">
                   <div className="flex items-center bg-gray-100 rounded-lg p-1">
                     <button 
-                      onClick={() => dispatch(decreaseQuantity(item.id))}
+                      onClick={() => handleDecrease(item.id, item.quantity)}
                       className="p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 text-gray-600 transition-all"
                     >
                       <Minus size={14} />
                     </button>
                     <span className="w-10 text-center font-semibold text-gray-800">{item.quantity}</span>
                     <button 
-                      onClick={() => dispatch(increaseQuantity(item.id))}
+                      onClick={() => handleIncrease(item.id, item.quantity)}
                       className="p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 text-gray-600 transition-all"
                     >
                       <Plus size={14} />

@@ -1,20 +1,19 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Paradise Nursery Shopping Application
 
-# Run and deploy your AI Studio app
+## Project Name
+**Paradise Nursery**
 
-This contains everything you need to run your app locally.
+## Description
+A dynamic e-commerce web application built for plant enthusiasts. This application allows users to browse a curated selection of houseplants, categorized by their benefits (Air Purifying, Succulents, Flowering). It features a fully functional shopping cart managed by Redux, enabling users to add items, update quantities, and view real-time total costs.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1CiikdjWJB_oSHDRQ434tZ8mTrVV7fUgz
+## Features
+- **Landing Page**: Engaging hero section and company information.
+- **Product Listing**: Categorized display of plants with images, descriptions, and prices.
+- **Shopping Cart**: Dynamic cart management (add, remove, update quantities).
+- **Responsive Design**: Optimized for various screen sizes.
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Technologies Used
+- React
+- Redux Toolkit
+- TypeScript
+- Tailwind CSS
